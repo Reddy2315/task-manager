@@ -18,11 +18,11 @@ This project demonstrates clean architecture, REST APIs, JWT authentication, and
 
 ## 🛠️ Tech Stack
 **Backend:**
-- Java 17
-- Spring Boot 3.x
+- Java 21
+- Spring Boot 3.5.5
 - Spring Security + JWT
 - Spring Data JPA (Hibernate)
-- PostgreSQL / MySQL (configurable)
+- PostgreSQL / MySQL / H2 (configurable)
 - Swagger / OpenAPI
 
 **Frontend:**
