@@ -19,7 +19,7 @@ spring:
 
 app:
   jwt:
-    secret: "change-this-to-a-long-random-secret-key-please"
+    secret: ${APP_JWT_SECRET:}
     expiration: 3600000 # 1 hour
 
 server:
