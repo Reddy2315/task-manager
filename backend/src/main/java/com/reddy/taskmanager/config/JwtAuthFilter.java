@@ -19,14 +19,15 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+
     private final JwtService jwtService;
+
     private final UserRepository userRepo;
 
-
     public JwtAuthFilter(JwtService jwtService, UserRepository userRepo) {
-        this.jwtService = jwtService; this.userRepo = userRepo;
+        this.jwtService = jwtService;
+        this.userRepo = userRepo;
     }
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

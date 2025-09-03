@@ -10,12 +10,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final UserRepository repo; private final PasswordEncoder encoder;
-    public UserService(UserRepository repo, PasswordEncoder encoder){this.repo=repo; this.encoder=encoder;}
+    private final UserRepository repo;
+    private final PasswordEncoder encoder;
+
+    public UserService(UserRepository repo, PasswordEncoder encoder) {
+        this.repo = repo;
+        this.encoder = encoder;
+    }
 
 
-    public User register(RegisterRequest req){
-        if (repo.existsByUsername(req.username())){
+    public User register(RegisterRequest req) {
+        if (repo.existsByUsername(req.username())) {
             throw new RuntimeException("Username taken");
         }
         User u = User.builder()
@@ -27,12 +32,12 @@ public class UserService {
     }
 
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return repo.findByUsername(username).orElseThrow();
     }
 
 
-    public User findByUsernameOrNull(String username){
+    public User findByUsernameOrNull(String username) {
         return repo.findByUsername(username).orElse(null);
     }
 }

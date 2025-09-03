@@ -22,13 +22,15 @@ public class DataInitializer implements CommandLineRunner {
     private final TaskService tasks;
     private final UserRepository userRepo;
 
-    public DataInitializer(UserService users, TaskService tasks, UserRepository userRepo){
-        this.users=users;
-        this.tasks=tasks;
-        this.userRepo=userRepo;
+    public DataInitializer(UserService users, TaskService tasks, UserRepository userRepo) {
+        this.users = users;
+        this.tasks = tasks;
+        this.userRepo = userRepo;
     }
-    @Override public void run(String... args){
-        User u = userRepo.findByUsername("demo").orElseGet(() -> users.register(new RegisterRequest("demo","password")));
+
+    @Override
+    public void run(String... args) {
+        User u = userRepo.findByUsername("demo").orElseGet(() -> users.register(new RegisterRequest("demo", "password")));
         if (tasks.list(u).isEmpty()) {
             tasks.create(Task.builder().title("Learn Spring Security").description("JWT & Filters").status(Status.IN_PROGRESS).dueDate(LocalDate.now().plusDays(3)).owner(u).build());
             tasks.create(Task.builder().title("Build Angular UI").description("Material + Interceptor").status(Status.TODO).dueDate(LocalDate.now().plusDays(5)).owner(u).build());
