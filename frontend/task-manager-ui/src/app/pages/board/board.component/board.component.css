@@ -1,0 +1,178 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #f7f9fb;
+}
+
+.header-toolbar {
+    background: linear-gradient(90deg, #1976d2 60%, #64b5f6 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
+    min-height: 64px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-left: 20px;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.header-icon {
+    margin-left: 20px;
+    font-size: 2rem;
+    color: #ffeb3b;
+    vertical-align: middle;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar button {
+    margin-left: 8px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    color: #fff;
+    transition: background 0.2s;
+}
+
+mat-toolbar button:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+.create-card {
+    margin-bottom: 28px;
+    padding: 28px;
+    box-shadow: 0 4px 24px rgba(25, 118, 210, 0.08);
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid #e3eafc;
+}
+
+h2 {
+    text-align: center;
+    color: #1976d2;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+}
+
+.row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+    margin: 10px auto;
+}
+
+.grow {
+    flex: 1;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.task {
+    margin: 12px 0;
+    padding: 18px 16px;
+    border-radius: 12px;
+    background: #f9fafd;
+    box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+    border-left: 5px solid #1976d2;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.task:hover {
+    box-shadow: 0 6px 24px rgba(25, 118, 210, 0.15);
+    border-left: 5px solid #c911b7;
+}
+
+.task b {
+    font-size: 1.1rem;
+    color: #1976d2;
+}
+
+.task div {
+    color: #333;
+    margin: 6px 0 0 0;
+    font-size: 1rem;
+}
+
+.create-card mat-form-field {
+    margin-bottom: 0;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 14px;
+    color: #c911b7;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-shadow: 0 2px 8px #f3e7e9;
+}
+
+.action-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+button[mat-button], button[mat-raised-button] {
+    min-width: 80px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+button[mat-button]:hover, button[mat-raised-button]:hover {
+    background: #e3eafc;
+    color: #1976d2;
+}
+
+button[mat-button][color="warn"], button[mat-raised-button][color="warn"] {
+    color: #fff;
+    background: #e53935;
+}
+
+button[mat-button][color="warn"]:hover, button[mat-raised-button][color="warn"]:hover {
+    background: #b71c1c;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #e3eafc;
+}
+::-webkit-scrollbar-thumb {
+    background: #b3c6f7;
+    border-radius: 8px;
+}
