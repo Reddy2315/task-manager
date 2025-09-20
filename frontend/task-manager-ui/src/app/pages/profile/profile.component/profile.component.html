@@ -1,1 +1,48 @@
-<p>profile.component works!</p>
+<mat-card-title>Edit Profile</mat-card-title>
+<mat-card class="profile-card">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="profile-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Enter username" formControlName="username" autocomplete="username" />
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="fc.username.touched && fc.username.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="fc.username.touched && fc.username.hasError('minlength')">
+        Minimum 3 characters
+      </mat-error>
+      <mat-error *ngIf="fc.username.touched && fc.username.hasError('maxlength')">
+        Maximum 30 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        placeholder="Enter password"
+        formControlName="password"
+        autocomplete="new-password"
+      />
+      <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Toggle password visibility'">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="fc.password.touched && fc.password.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="fc.password.touched && fc.password.hasError('minlength')">
+        Minimum 6 characters
+      </mat-error>
+      <mat-error *ngIf="fc.password.touched && fc.password.hasError('maxlength')">
+        Maximum 64 characters
+      </mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button type="button" (click)="reset()" [disabled]="form.pristine">Reset</button>
+      <button mat-raised-button type="submit" [disabled]="form.invalid || form.pristine">Save Changes</button>
+    </div>
+  </form>
+</mat-card>
+

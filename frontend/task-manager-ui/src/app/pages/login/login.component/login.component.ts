@@ -12,12 +12,15 @@ import { AuthService } from '../../../core/auth.service';
 @Component({
   selector: 'app-login.component',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatInputModule, MatFormFieldModule, NgOptimizedImage],
+  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatInputModule, MatFormFieldModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username = 'demo'; password = 'password';
+  username = ''; password = '';
   constructor(private auth: AuthService, private router: Router) { }
-  submit() { this.auth.login(this.username, this.password).subscribe(() => this.router.navigateByUrl('/board')); }
+  submit() { 
+    this.auth.login(this.username, this.password)
+    .subscribe(() => this.router.navigateByUrl('/board')); 
+  }
 }

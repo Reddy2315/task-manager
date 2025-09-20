@@ -1,75 +1,100 @@
-<mat-toolbar color="primary" class="header-toolbar">
-    <mat-icon class="header-icon" color="accent">assignment</mat-icon>
-    <span class="header-title"><b>Task Manager</b></span>
-    <span class="spacer"></span>
-    <button mat-button *ngIf="!auth.isLoggedIn()" routerLink="/login" color="accent">
-        <mat-icon>login</mat-icon> Login
-    </button>
-    <button mat-button *ngIf="!auth.isLoggedIn()" routerLink="/register" color="accent">
-        <mat-icon>person_add</mat-icon> Register
-    </button>
-    <button mat-button *ngIf="auth.isLoggedIn()" routerLink="/profile" color="accent">
-        <mat-icon>account_circle</mat-icon> My Profile
-    </button>
-    <button mat-button *ngIf="auth.isLoggedIn()" (click)="auth.logout()" color="warn">
-        <mat-icon>logout</mat-icon> Logout
-    </button>
-</mat-toolbar>
+<div>
+    <mat-toolbar color="primary" class="header-toolbar">
+        <mat-icon class="header-icon" color="accent">assignment</mat-icon>
+        <span class="header-title"><b>Task Manager</b></span>
+        <span class="spacer"></span>
+        <button mat-button *ngIf="!auth.isLoggedIn()" routerLink="/login" color="accent">
+            <mat-icon>login</mat-icon> Login
+        </button>
+        <button mat-button *ngIf="!auth.isLoggedIn()" routerLink="/register" color="accent">
+            <mat-icon>person_add</mat-icon> Register
+        </button>
+        <button mat-button *ngIf="auth.isLoggedIn()" routerLink="/profile" color="accent">
+            <mat-icon>account_circle</mat-icon> {{ auth.getUsername() }}
+        </button>
+        <button mat-button *ngIf="auth.isLoggedIn()" (click)="auth.logout()" color="warn">
+            <mat-icon>logout</mat-icon> Logout
+        </button>
+    </mat-toolbar>
+</div>
+<div class="board-image" *ngIf="!auth.isLoggedIn()">
+    <img src="views/Task_Management_img.jpg" alt="Task Manager" />
+</div>
+<div class="full-container" *ngIf="auth.isLoggedIn()">
+    <div class="container" *ngIf="auth.isLoggedIn()">
+        <mat-card class="create-card">
+            <h2>Create Task</h2>
+            <div class="row">
+                <mat-form-field appearance="outline" class="grow">
+                    <mat-label>Title</mat-label>
+                    <input matInput [(ngModel)]="draft.title" name="title" />
+                </mat-form-field>
 
-<div class="container" *ngIf="auth.isLoggedIn()">
-    <mat-card class="create-card">
-        <h2>Create Task</h2>
-        <div class="row">
-            <mat-form-field appearance="outline" class="grow">
-                <mat-label>Title</mat-label>
-                <input matInput [(ngModel)]="draft.title" name="title" />
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="grow">
+                    <mat-label>Description</mat-label>
+                    <input matInput [(ngModel)]="draft.description" name="description" />
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="grow">
-                <mat-label>Description</mat-label>
-                <input matInput [(ngModel)]="draft.description" name="description" />
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select [(ngModel)]="draft.status" name="status">
+                        <mat-option value="TODO">TODO</mat-option>
+                        <mat-option value="IN_PROGRESS">IN PROGRESS</mat-option>
+                        <mat-option value="DONE">DONE</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="draft.status" name="status">
-                    <mat-option value="TODO">TODO</mat-option>
-                    <mat-option value="IN_PROGRESS">IN PROGRESS</mat-option>
-                    <mat-option value="DONE">DONE</mat-option>
-                </mat-select>
-            </mat-form-field>
+                <button mat-raised-button color="primary" (click)="create()">Add</button>
+            </div>
+        </mat-card>
 
-            <button mat-raised-button color="primary" (click)="create()">Add</button>
-        </div>
-    </mat-card>
+        <div class="grid">
+            <div>
+                <h3>TODO</h3>
+                <mat-card *ngFor="let t of todoTasks" class="task">
+                    <b>{{ t.title }}</b>
+                    <div>{{ t.description }}</div>
+                    <span class="action-card"><button mat-button (click)="setStatus(t, 'IN_PROGRESS')">Start</button>
+                        <button mat-button (click)="remove(t)">Delete</button></span>
+                </mat-card>
+            </div>
 
-    <div class="grid">
-        <div>
-            <h3>TODO</h3>
-            <mat-card *ngFor="let t of todoTasks" class="task">
-                <b>{{ t.title }}</b>
-                <div>{{ t.description }}</div>
-                <span class="action-card"><button mat-button (click)="setStatus(t, 'IN_PROGRESS')">Start</button>
-                    <button mat-button (click)="remove(t)">Delete</button></span>
-            </mat-card>
-        </div>
+            <div>
+                <h3>IN PROGRESS</h3>
+                <mat-card *ngFor="let t of inProgressTasks" class="task">
+                    <b>{{ t.title }}</b>
+                    <div>{{ t.description }}</div>
+                    <span class="action-card"><button mat-button (click)="setStatus(t, 'DONE')">Done</button>
+                        <button mat-button color="warn" (click)="remove(t)">Delete</button></span>
+                </mat-card>
+            </div>
 
-        <div>
-            <h3>IN PROGRESS</h3>
-            <mat-card *ngFor="let t of inProgressTasks" class="task">
-                <b>{{ t.title }}</b>
-                <div>{{ t.description }}</div>
-                <span class="action-card"><button mat-button (click)="setStatus(t, 'DONE')">Done</button>
-                    <button mat-button color="warn" (click)="remove(t)">Delete</button></span>
-            </mat-card>
-        </div>
-
-        <div>
-            <h3>DONE</h3>
-            <mat-card *ngFor="let t of doneTasks" class="task">
-                <b>{{ t.title }}</b>
-                <div>{{ t.description }}</div>
-            </mat-card>
+            <div>
+                <h3>DONE</h3>
+                <mat-card *ngFor="let t of doneTasks" class="task">
+                    <b>{{ t.title }}</b>
+                    <div>{{ t.description }}</div>
+                </mat-card>
+            </div>
         </div>
     </div>
+
 </div>
+<footer class="footer">
+    <div class="footer-content">
+        <span>
+            <mat-icon color="accent" style="vertical-align: middle;">copyright</mat-icon>
+            <b>Task Manager</b> {{ today | date:'yyyy' }} &mdash; Made with
+            <mat-icon color="warn" style="vertical-align: middle;">favorite</mat-icon>
+            by <a href="https://github.com/Reddy2315" target="_blank" rel="noopener">Nagendharreddy</a>
+        </span>
+        <span class="footer-links">
+            <a href="https://github.com/Reddy2315/task-manager" target="_blank" rel="noopener">
+                <mat-icon>code</mat-icon> GitHub
+            </a>
+            <a href="mailto:your.email@example.com">
+                <mat-icon>email</mat-icon> Contact
+            </a>
+        </span>
+    </div>
+</footer>

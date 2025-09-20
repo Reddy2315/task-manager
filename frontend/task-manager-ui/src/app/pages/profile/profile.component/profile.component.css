@@ -1,0 +1,226 @@
+/* Page background, theme tokens */
+:host {
+  --bg1: #0e0f1a;
+  --bg2: #161a2d;
+  --bg3: #0d2b45;
+  --primary: #6ef3d6;
+  --primary-700: #0aa398;
+  --danger: #ff5252;
+  --text-weak: rgba(255, 255, 255, 0.72);
+  --text-strong: rgba(255, 255, 255, 0.98);
+
+  display: block;
+  min-height: 100dvh;
+  background: linear-gradient(120deg, #f3e7e9 0%, #c9ffbf 100%);
+  padding: 32px 16px;
+}
+
+/* Top heading “Edit Profile” – centered and bright */
+.heading {
+  max-width: 920px;
+  margin: 0 auto 18px auto;
+  padding: 0 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center block horizontally */
+  text-align: center;    /* center text */
+  gap: 6px;
+  color: blueviolet;
+}
+.heading .title {
+  font-size: clamp(24px, 3.6vw, 36px);
+  font-weight: 800;
+  line-height: 1.12;
+  background-image: linear-gradient(90deg, #ffffff 0%, #f6ffff 35%, #e8ffff 70%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.238);
+}
+.heading .subtitle {
+  font-weight: bold;
+  font-size: clamp(12px, 1.6vw, 14px);
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 40px;
+}
+
+
+/* Container under heading */
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Glass card */
+.profile-card {
+  width: 35%;
+  margin-inline: auto;
+  padding: 16px 16px 20px;
+  border-radius: 18px;
+  /* background: rgba(255, 255, 255, 0.07); */
+  background-color: whitesmoke;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px) saturate(110%);
+  -webkit-backdrop-filter: blur(14px) saturate(110%);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+.profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+mat-card-title {
+  font-weight: bold;
+  color: blueviolet;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Form layout */
+.profile-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 10px;
+}
+.full-width { width: 100%; }
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+/* Outline border (idle/focus) */
+:host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+:host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__notch,
+:host ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: rgb(201, 201, 201);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+:host ::ng-deep .mat-mdc-form-field.mdc-text-field--focused
+  .mdc-notched-outline__leading,
+:host ::ng-deep .mat-mdc-form-field.mdc-text-field--focused
+  .mdc-notched-outline__notch,
+:host ::ng-deep .mat-mdc-form-field.mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 36%, transparent);
+}
+
+/* Input wrapper fill + hover */
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: background 160ms ease, transform 160ms ease;
+}
+:host ::ng-deep .mat-mdc-text-field-wrapper:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Input text, label, icons on dark */
+:host ::ng-deep .mat-mdc-input-element {
+  color: var(--bg2);
+}
+:host ::ng-deep .mat-mdc-form-field .mdc-floating-label {
+  color: rgba(255, 255, 255, 0.577);
+  letter-spacing: 0.15px;
+}
+:host ::ng-deep .mat-mdc-form-field.mdc-text-field--focused .mdc-floating-label {
+  color: var(--primary);
+}
+:host ::ng-deep .mat-mdc-form-field .mat-mdc-form-field-icon-suffix,
+:host ::ng-deep .mat-mdc-form-field .mat-mdc-form-field-icon-prefix {
+  color: rgb(55, 55, 55);
+}
+
+/* Error state */
+:host ::ng-deep .mat-mdc-form-field-error {
+  color: var(--danger);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Improve clickable suffix icon button */
+:host ::ng-deep .mat-mdc-form-field .mat-mdc-icon-button {
+  color: rgb(55, 55, 55);
+  transition: transform 120ms ease, color 120ms ease;
+}
+:host ::ng-deep .mat-mdc-form-field .mat-mdc-icon-button:hover {
+  transform: scale(1.04);
+  color: rgba(5, 51, 255, 0.795)
+}
+
+/* Buttons (accent + stroked) */
+:host ::ng-deep .mat-mdc-raised-button.mat-accent {
+  --btn: var(--primary);
+  color: #0b1b1f;
+  background: linear-gradient(135deg, color-mix(in oklab, var(--btn) 90%, #ffffff), var(--btn));
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--btn) 48%, transparent);
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease, opacity 140ms ease;
+}
+:host ::ng-deep .mat-mdc-raised-button.mat-accent:hover:not(.mdc-button--disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px color-mix(in oklab, var(--btn) 58%, transparent);
+  filter: saturate(1.06);
+}
+:host ::ng-deep .mat-mdc-raised-button.mat-accent:active:not(.mdc-button--disabled) {
+  transform: translateY(0);
+  opacity: 0.94;
+}
+:host ::ng-deep .mat-mdc-outlined-button.mat-primary {
+  border-color: var(--primary-700);
+  color: var(--primary);
+  transition: border-color 140ms ease, color 140ms ease, transform 140ms ease, background 140ms ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+:host ::ng-deep .mat-mdc-outlined-button.mat-primary:hover:not(.mdc-button--disabled) {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.06);
+}
+:host ::ng-deep .mat-mdc-outlined-button.mat-primary:active:not(.mdc-button--disabled) {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .container { gap: 12px; }
+}
+@media (max-width: 600px) {
+  :host { padding: 20px 12px; }
+  .profile-card { padding: 12px 12px 16px; }
+  .profile-form { gap: 14px; }
+}
+
+/* Utilities*/
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+
+button[mat-raised-button] {
+    width: 50%;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #7c3aed 60%, #c471f5 100%);
+    color: #fffffff2;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.12);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+button[mat-raised-button]:hover {
+    background: linear-gradient(90deg, #c471f5 60%, #7c3aed 100%);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.18);
+}

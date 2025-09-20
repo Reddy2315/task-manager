@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -35,33 +35,25 @@ import { MatDividerModule } from '@angular/material/divider';
 export class BoardComponent implements OnInit {
   tasks: Task[] = [];
   draft: Task = { title: '', description: '', status: 'TODO' };
+  today = new Date();
 
-  constructor(private api: TaskService,
-    public auth: AuthService
-  ) {}
+  constructor(
+    private api: TaskService,
+    public auth: AuthService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
 
- ngOnInit() {
-  // const token = localStorage.getItem('tm_token');
-  // if (!token) {
-  //   // Redirect if no token
-  //   window.location.href = '/login';
-  //   return;
-  // }
-  this.reload();
-}
-
+  ngOnInit() {
+    this.reload();
+  }
 
   reload() {
-    this.api.list().subscribe(r => (this.tasks = r));
+    this.api.list().subscribe(r => {
+      this.tasks = r;
+      this.cdr.markForCheck();
+    });
   }
-//   reload() {
-//   this.api.list().subscribe({
-//     next: (r) => (this.tasks = r),
-//     error: (err) => console.error(err)
-//   });
-// }
-
 
   create() {
     this.api.create(this.draft).subscribe(_ => {
