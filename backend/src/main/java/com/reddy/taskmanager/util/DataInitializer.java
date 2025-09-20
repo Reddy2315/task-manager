@@ -10,9 +10,7 @@ import com.reddy.taskmanager.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.util.Base64;
 
 
 @Component
@@ -34,6 +32,7 @@ public class DataInitializer implements CommandLineRunner {
         if (tasks.list(u).isEmpty()) {
             tasks.create(Task.builder().title("Learn Spring Security").description("JWT & Filters").status(Status.IN_PROGRESS).dueDate(LocalDate.now().plusDays(3)).owner(u).build());
             tasks.create(Task.builder().title("Build Angular UI").description("Material + Interceptor").status(Status.TODO).dueDate(LocalDate.now().plusDays(5)).owner(u).build());
+            tasks.create(Task.builder().title("Learn Java").description("Basics + Oops + Collections").status(Status.DONE).dueDate(LocalDate.now().plusDays(6)).owner(u).build());
         }
     }
 }
