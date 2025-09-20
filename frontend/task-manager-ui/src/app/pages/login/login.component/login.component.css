@@ -1,0 +1,59 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(120deg, #f3e7e9 0%, #c9ffbf 100%);
+}
+
+h2 {
+    text-align: center;
+    color: #7c3aed;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+mat-card {
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 28px 24px 28px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    background: #fff;
+    border: 1px solid #f3e7e9;
+}
+
+mat-form-field {
+    margin-bottom: 22px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+button[mat-raised-button] {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #7c3aed 60%, #c471f5 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.12);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+button[mat-raised-button]:hover {
+    background: linear-gradient(90deg, #c471f5 60%, #7c3aed 100%);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.18);
+}
