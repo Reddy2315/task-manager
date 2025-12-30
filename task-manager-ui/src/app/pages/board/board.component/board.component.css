@@ -147,8 +147,8 @@ h3 {
 
 .action-card {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     gap: 12px;
     margin-top: 10px;
 }

@@ -93,11 +93,13 @@ mat-card-title {
   margin-top: 10px;
 }
 .full-width { width: 100%; }
+
 .actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
   margin-top: 8px;
+  cursor: pointer;
 }
 
 /* Outline border (idle/focus) */
