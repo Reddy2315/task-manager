@@ -3,17 +3,15 @@ package com.reddy.taskmanager.service;
 import com.reddy.taskmanager.entity.Task;
 import com.reddy.taskmanager.entity.User;
 import com.reddy.taskmanager.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository repo;
-
-    public TaskService(TaskRepository repo){
-        this.repo=repo;
-    }
 
     public List<Task> list(User owner){
         return repo.findByOwner(owner);

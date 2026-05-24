@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: taskmanager
+    name: ${SPRING_APPLICATION_NAME}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -20,7 +20,7 @@ spring:
 
 app:
   jwt:
-    secret: ${APP_JWT_SECRET:change-me-local-dev-secret-32-chars-min}
+    secret: ${APP_JWT_SECRET}
     expiration: 3600000 # 1 hour
 
 logging:

@@ -5,6 +5,7 @@ import com.reddy.taskmanager.entity.Status;
 import com.reddy.taskmanager.entity.User;
 import com.reddy.taskmanager.service.TaskService;
 import com.reddy.taskmanager.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService tasks;
-
     private final UserService users;
-
-    public TaskController(TaskService tasks, UserService users) {
-        this.tasks = tasks;
-        this.users = users;
-    }
 
     private User currentUser() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

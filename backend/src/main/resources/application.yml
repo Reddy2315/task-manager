@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:taskmanager}
+    name: ${SPRING_APPLICATION_NAME}
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
   datasource:
