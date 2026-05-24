@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/task-manager-ui/browser",
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/((?!assets|api|_next|.*\\.js$|.*\\.css$|.*\\.svg$|.*\\.json$|.*\\.woff.*$|.*\\.ttf$).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

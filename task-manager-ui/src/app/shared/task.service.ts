@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export type Task = {
   id?: number;
@@ -14,7 +15,7 @@ export type Task = {
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  private taskUrl = 'http://localhost:8080/api/tasks';
+  private taskUrl = `${environment.apiUrl}/tasks`;
   constructor(private http: HttpClient) { }
   // list() { 
   //   return this.http.get<Task[]>(this.taskUrl); 
