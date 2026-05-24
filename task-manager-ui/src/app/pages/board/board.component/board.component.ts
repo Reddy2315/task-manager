@@ -27,10 +27,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSelectModule,
     MatFormFieldModule,
     MatToolbarModule,
-    MatIcon,
+    MatIcon
   ],
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css'],
+  styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
   tasks: Task[] = [];
@@ -41,21 +41,22 @@ export class BoardComponent implements OnInit {
     private api: TaskService,
     public auth: AuthService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
+
 
   ngOnInit() {
     this.reload();
   }
 
   reload() {
-    this.api.list().subscribe((r) => {
+    this.api.list().subscribe(r => {
       this.tasks = r;
       this.cdr.markForCheck();
     });
   }
 
   create() {
-    this.api.create(this.draft).subscribe((_) => {
+    this.api.create(this.draft).subscribe(_ => {
       this.draft = { title: '', description: '', status: 'TODO' };
       this.reload();
     });
@@ -63,27 +64,27 @@ export class BoardComponent implements OnInit {
 
   setStatus(t: Task, s: Task['status']) {
     if (!t.id) return;
-    this.api.update(t.id, { ...t, status: s }).subscribe((_) => this.reload());
+    this.api.update(t.id, { ...t, status: s }).subscribe(_ => this.reload());
   }
 
   remove(t: Task) {
     if (!t.id) return;
-    this.api.delete(t.id).subscribe((_) => this.reload());
+    this.api.delete(t.id).subscribe(_ => this.reload());
   }
 
   get todoTasks(): Task[] {
-    return this.tasks.filter((x) => x.status === 'TODO');
+    return this.tasks.filter(x => x.status === 'TODO');
   }
 
   get inProgressTasks(): Task[] {
-    return this.tasks.filter((x) => x.status === 'IN_PROGRESS');
+    return this.tasks.filter(x => x.status === 'IN_PROGRESS');
   }
 
   get doneTasks(): Task[] {
-    return this.tasks.filter((x) => x.status === 'DONE');
+    return this.tasks.filter(x => x.status === 'DONE');
   }
 
-  get isTasksExist(): boolean {
-    return (this.tasks?.length ?? 0) > 0;
-  }
+get isTasksExist(): boolean {
+  return (this.tasks?.length ?? 0) > 0;
+}
 }
