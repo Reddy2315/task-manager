@@ -1,8 +1,8 @@
 server:
   port: ${PORT:8080}
   servlet:
-    context-path: ${SPRING_SERVER_CONTEXT_PATH:/api}
-  allowed-origins: ${SPRING_SERVER_ALLOWED_ORIGINS:http://localhost:4200}
+    context-path: ${SPRING_SERVER_CONTEXT_PATH}
+  allowed-origins: ${SPRING_SERVER_ALLOWED_ORIGINS}
 
 spring:
   application:

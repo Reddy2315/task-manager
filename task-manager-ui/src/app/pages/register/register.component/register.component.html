@@ -1,23 +1,38 @@
-<div class="register-flex-container">
-    <div class="register-image">
-        <img src="views/Task_Management_img.jpg" alt="Task Manager" />
+<main class="auth-page">
+  <section class="auth-media">
+    <a class="brand" routerLink="/board">
+      <span class="brand-mark"><mat-icon>task_alt</mat-icon></span>
+      <span>Task Manager</span>
+    </a>
+    <div class="media-copy">
+      <p class="eyebrow">Start organized</p>
+      <h1>Create a workspace for the tasks that matter today.</h1>
+      <p>Register once, then manage your personal board with fast task capture and simple progress states.</p>
     </div>
-    <div class="register-form">
-        <div class="container">
-            <h2>Register</h2>
-            <mat-card>
-                <form (ngSubmit)="submit()">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Username</mat-label>
-                        <input matInput [(ngModel)]="username" name="username" required />
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Password</mat-label>
-                        <input matInput type="password" [(ngModel)]="password" name="password" required />
-                    </mat-form-field>
-                    <button mat-raised-button color="primary">Create account</button>
-                </form>
-            </mat-card>
-        </div>
-    </div>
-</div>
+    <img src="views/Task_Management_img.jpg" alt="Task planning workspace" />
+  </section>
+
+  <section class="auth-panel">
+    <mat-card>
+      <p class="eyebrow">New account</p>
+      <h2>Register</h2>
+      <form (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="username" name="username" required />
+          <mat-icon matSuffix>person_add</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required />
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+        <button mat-raised-button class="primary-action" [disabled]="!username || !password">
+          <mat-icon>arrow_forward</mat-icon>
+          Create account
+        </button>
+      </form>
+      <p class="switch-link">Already registered? <a routerLink="/login">Login</a></p>
+    </mat-card>
+  </section>
+</main>

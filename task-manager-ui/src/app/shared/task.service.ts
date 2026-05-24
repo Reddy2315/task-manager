@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-export type Task = { id?: number; title: string; description?: string; status?: 'TODO' | 'IN_PROGRESS' | 'DONE'; dueDate?: string };
+export type Task = {
+  id?: number;
+  title: string;
+  description?: string;
+  status?: 'TODO' | 'IN_PROGRESS' | 'DONE';
+  dueDate?: string;
+  dueAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
