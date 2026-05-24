@@ -32,6 +32,8 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('tm_reminders_enabled');
+    localStorage.removeItem('tm_notified_tasks');
   }
 
   getUsername(): string | null {

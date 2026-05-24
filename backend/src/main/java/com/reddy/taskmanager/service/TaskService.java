@@ -28,6 +28,7 @@ public class TaskService {
         existing.setDescription(data.getDescription());
         existing.setStatus(data.getStatus());
         existing.setDueDate(data.getDueDate());
+        existing.setDueAt(data.getDueAt());
         return repo.save(existing);
     }
 

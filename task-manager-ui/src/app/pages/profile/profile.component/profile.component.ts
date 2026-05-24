@@ -8,12 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile.component',
   imports: [ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    RouterLink,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -27,7 +29,7 @@ export class ProfileComponent {
 
   private fb = inject(FormBuilder);
   private snackbar = inject(MatSnackBar);
-  private auth = inject(AuthService);
+  auth = inject(AuthService);
 
   hidePassword = true;
 

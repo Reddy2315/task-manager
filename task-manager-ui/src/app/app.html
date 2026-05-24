@@ -1,1 +1,26 @@
 <router-outlet></router-outlet>
+
+<footer class="app-footer">
+  <div class="footer-inner">
+    <div class="footer-credit">
+      <span class="footer-logo"><mat-icon>task_alt</mat-icon></span>
+      <span>
+        <b>Task Manager</b> {{ today | date: "yyyy" }} - Made with
+        <mat-icon class="heart-icon">favorite</mat-icon>
+        by
+        <a href="https://nagendharreddy.com" target="_blank" rel="noopener">Nagendharreddy</a>
+      </span>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/Reddy2315/task-manager" target="_blank" rel="noopener">
+        <mat-icon>code</mat-icon>
+        GitHub
+      </a>
+      <a href="mailto:nagendharreddy.job@gmail.com">
+        <mat-icon>email</mat-icon>
+        Contact
+      </a>
+    </div>
+  </div>
+</footer>

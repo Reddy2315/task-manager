@@ -1,23 +1,69 @@
-<div class="login-flex-container">
-  <div class="login-image">
-    <img src="views/Task_Management_img.jpg" alt="Task Manager" />
-  </div>
-  <div class="login-form">
-    <div class="container">
-      <h2>Login</h2>
-      <mat-card>
-        <form (ngSubmit)="submit()">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Username</mat-label>
-            <input matInput [(ngModel)]="username" name="username" required />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" [(ngModel)]="password" name="password" required />
-          </mat-form-field>
-          <button mat-raised-button color="primary">Login</button>
-        </form>
-      </mat-card>
+<main class="auth-page">
+  <section class="auth-media">
+    <a class="brand" routerLink="/board">
+      <span class="brand-mark"><mat-icon>task_alt</mat-icon></span>
+      <span>Task Manager</span>
+    </a>
+    <div class="media-copy">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Pick up your plan exactly where you left it.</h1>
+      <p>
+        Login to review progress, start queued tasks, and keep your day moving
+        with less friction.
+      </p>
     </div>
-  </div>
-</div>
+    <img src="views/Task_Management_img.jpg" alt="Task planning workspace" />
+  </section>
+
+  <section class="auth-panel">
+    <mat-card>
+      <p class="eyebrow">Secure access</p>
+      <h2>Login</h2>
+      <form (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            [(ngModel)]="username"
+            (input)="clearError()"
+            name="username"
+            required
+          />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            [(ngModel)]="password"
+            (input)="clearError()"
+            name="password"
+            required
+          />
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+
+        <div *ngIf="errorMessage" class="login-error">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <button
+          mat-raised-button
+          class="primary-action"
+          type="submit"
+          [disabled]="!username || !password || isLoading"
+        >
+          <mat-icon *ngIf="!isLoading">login</mat-icon>
+
+          {{ isLoading ? "Signing in..." : "Login" }}
+        </button>
+      </form>
+      <p class="switch-link">
+        New here? <a routerLink="/register">Create an account</a>
+      </p>
+    </mat-card>
+  </section>
+</main>

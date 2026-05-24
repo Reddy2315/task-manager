@@ -1,142 +1,313 @@
-<div>
-  <mat-toolbar color="primary" class="header-toolbar">
-    <mat-icon class="header-icon" color="accent">assignment</mat-icon>
-    <span class="header-title"><b>Task Manager</b></span>
+<section class="app-shell">
+  <mat-toolbar class="topbar">
+    <a class="brand" routerLink="/board" aria-label="Task Manager home">
+      <span class="brand-mark"><mat-icon>task_alt</mat-icon></span>
+      <span class="brand-copy">
+        <strong>Task Manager</strong>
+        <small>Plan, move, finish</small>
+      </span>
+    </a>
+
     <span class="spacer"></span>
-    <button
-      mat-button
-      *ngIf="!auth.isLoggedIn()"
-      routerLink="/login"
-      color="accent"
-    >
-      <mat-icon>login</mat-icon> Login
-    </button>
-    <button
-      mat-button
-      *ngIf="!auth.isLoggedIn()"
-      routerLink="/register"
-      color="accent"
-    >
-      <mat-icon>person_add</mat-icon> Register
-    </button>
-    <button
-      mat-button
-      *ngIf="auth.isLoggedIn()"
-      routerLink="/profile"
-      color="accent"
-    >
-      <mat-icon>account_circle</mat-icon> {{ auth.getUsername() }}
-    </button>
-    <button
-      mat-button
-      *ngIf="auth.isLoggedIn()"
-      (click)="auth.logout()"
-      color="warn"
-    >
-      <mat-icon>logout</mat-icon> Logout
-    </button>
+
+    <nav class="nav-actions">
+      <button mat-button *ngIf="!auth.isLoggedIn()" routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Login
+      </button>
+      <button mat-raised-button *ngIf="!auth.isLoggedIn()" routerLink="/register">
+        <mat-icon>person_add</mat-icon>
+        Register
+      </button>
+      <button mat-button *ngIf="auth.isLoggedIn()" routerLink="/profile">
+        <mat-icon>account_circle</mat-icon>
+        {{ auth.getUsername() }}
+      </button>
+      <button mat-icon-button *ngIf="auth.isLoggedIn()" (click)="logout()" aria-label="Logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </nav>
   </mat-toolbar>
-</div>
-<div class="board-image" *ngIf="!auth.isLoggedIn()">
-  <img src="views/Task_Management_img.jpg" alt="Task Manager" />
-</div>
-<div class="full-container" *ngIf="auth.isLoggedIn()">
-  <div class="container" *ngIf="auth.isLoggedIn()">
-    <mat-card class="create-card">
-      <h2>Create Task</h2>
-      <div class="row">
-        <mat-form-field appearance="outline" class="grow">
-          <mat-label>Title</mat-label>
-          <input matInput [(ngModel)]="draft.title" name="title" />
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="grow">
-          <mat-label>Description</mat-label>
-          <input matInput [(ngModel)]="draft.description" name="description" />
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="draft.status" name="status">
-            <mat-option value="TODO">TODO</mat-option>
-            <mat-option value="IN_PROGRESS">IN PROGRESS</mat-option>
-            <mat-option value="DONE">DONE</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" (click)="create()">
-          Add
+  <main class="guest-page" *ngIf="isGuest">
+    <div class="guest-copy">
+      <p class="eyebrow">Personal workflow board</p>
+      <h1>Turn scattered tasks into a calm, visible plan.</h1>
+      <p class="lead">Sign in to organize work across Todo, In Progress, and Done with a focused board built for daily use.</p>
+      <div class="guest-actions">
+        <button mat-raised-button routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+        <button mat-button routerLink="/register">
+          <mat-icon>person_add</mat-icon>
+          Create account
         </button>
       </div>
-    </mat-card>
+    </div>
+    <div class="guest-media">
+      <img src="views/Task_Management_img.jpg" alt="Task planning workspace" />
+    </div>
+  </main>
 
-    <div class="grid" *ngIf="isTasksExist; else noTasks">
-      <div *ngIf="todoTasks.length">
-        <h3>TODO</h3>
-        <mat-card *ngFor="let t of todoTasks" class="task">
-          <b>{{ t.title }}</b>
-          <div>{{ t.description }}</div>
-          <span class="action-card">
+  <main class="workspace" *ngIf="!isGuest">
+    <aside class="control-panel">
+      <div class="profile-block">
+        <p class="eyebrow">Welcome back</p>
+        <h1>{{ auth.getUsername() }}</h1>
+        <div class="current-time">
+          <mat-icon>schedule</mat-icon>
+          <!-- {{ now | date: 'EEEE, MMM d, y, h:mm:ss a' }} -->
+            {{ now | date: 'EEEE, MMM d, y, HH:mm:ss' }}
+        </div>
+      </div>
+
+      <button mat-raised-button class="new-task-button" (click)="openCreateForm()">
+        <mat-icon>add</mat-icon>
+        New task
+      </button>
+
+      <div class="side-stats">
+        <div class="stat">
+          <strong>{{ tasks.length }}</strong>
+          <span>Total</span>
+        </div>
+        <div class="stat">
+          <strong>{{ inProgressTasks.length }}</strong>
+          <span>Active</span>
+        </div>
+        <div class="stat">
+          <strong>{{ completionRate }}%</strong>
+          <span>Done</span>
+        </div>
+        <div class="stat">
+          <strong>{{ pendingReminderCount }}</strong>
+          <span>Reminders</span>
+        </div>
+      </div>
+
+      <section class="reminder-panel">
+        <div>
+          <strong>Task reminders</strong>
+          <span *ngIf="notificationPermission === 'granted' && remindersEnabled">Browser and in-app reminders are enabled.</span>
+          <span *ngIf="notificationPermission === 'granted' && !remindersEnabled">Browser permission is granted, but app reminders are disabled.</span>
+          <span *ngIf="notificationPermission === 'default'">Enable browser notifications for due tasks.</span>
+          <span *ngIf="notificationPermission === 'denied'">Notifications are blocked in browser settings.</span>
+          <span *ngIf="notificationPermission === 'unsupported'">Browser notifications are not supported here.</span>
+        </div>
+        <button mat-button *ngIf="!remindersEnabled" (click)="enableNotifications()" [disabled]="notificationPermission === 'denied' || notificationPermission === 'unsupported'">
+          <mat-icon>notifications_active</mat-icon>
+          Enable
+        </button>
+        <button mat-button *ngIf="remindersEnabled" (click)="disableNotifications()">
+          <mat-icon>notifications_off</mat-icon>
+          Disable
+        </button>
+      </section>
+    </aside>
+
+    <section class="work-panel">
+      <div class="work-header">
+        <div>
+          <p class="eyebrow">Workspace</p>
+          <h2>Your task board</h2>
+        </div>
+        <button mat-button (click)="reload()">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+      </div>
+
+      <section class="alert-stack" *ngIf="dueAlerts.length" >
+        <div class="due-alert" *ngFor="let alert of dueAlerts">
+          <mat-icon>notification_important</mat-icon>
+          <div>
+            <strong>{{ alert.title }}</strong>
+            <span>Due now - {{ dateTimeLabel(alert) }}</span>
+          </div>
+          <button mat-icon-button (click)="dismissAlert(alert)" aria-label="Dismiss reminder">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </section>
+
+      <mat-card class="create-card" *ngIf="showCreateForm">
+        <div class="card-heading">
+          <div>
+            <p class="eyebrow">Quick capture</p>
+            <h2>Create task</h2>
+          </div>
+          <button mat-icon-button type="button" (click)="closeCreateForm()" aria-label="Close create task form">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="task-form">
+        <div class="form-main">
+          <mat-form-field appearance="outline" class="title-field">
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="draft.title" name="title" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="description-field">
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="draft.description" name="description" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="status-field">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="draft.status" name="status">
+              <mat-option value="TODO">Todo</mat-option>
+              <mat-option value="IN_PROGRESS">In progress</mat-option>
+              <mat-option value="DONE">Done</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-title">
+            <mat-icon>event</mat-icon>
+            <div>
+              <strong>Due reminder</strong>
+              <span>Choose a date and time when this task should alert you.</span>
+            </div>
+          </div>
+
+          <div class="schedule-picker">
+            <mat-form-field appearance="outline" class="date-field">
+              <mat-label>Due date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="duePicker"
+                [min]="todayStart"
+                [(ngModel)]="dueDate"
+                name="dueDate"
+                readonly
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="duePicker"></mat-datepicker-toggle>
+              <mat-datepicker #duePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>HH</mat-label>
+              <mat-select [(ngModel)]="dueHour" name="dueHour">
+                <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>MM</mat-label>
+              <mat-select [(ngModel)]="dueMinute" name="dueMinute">
+                <mat-option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>AM/PM</mat-label>
+              <mat-select [(ngModel)]="duePeriod" name="duePeriod">
+                <mat-option value="AM">AM</mat-option>
+                <mat-option value="PM">PM</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" class="clear-action" (click)="clearDraft()">
+            <mat-icon>backspace</mat-icon>
+            Clear form
+          </button>
+          <button mat-button type="button" class="clear-action" (click)="clearDueDate()" [disabled]="!dueDate">
+            <mat-icon>event_busy</mat-icon>
+            Clear reminder
+          </button>
+          <button mat-raised-button class="primary-action" (click)="create()" [disabled]="!draft.title.trim()">
+            <mat-icon>add</mat-icon>
+            Add task
+          </button>
+        </div>
+      </div>
+      </mat-card>
+
+      <section class="board-grid">
+      <article class="lane lane-todo">
+        <header>
+          <span><mat-icon>radio_button_unchecked</mat-icon> Todo</span>
+          <strong>{{ todoTasks.length }}</strong>
+        </header>
+        <div class="lane-empty" *ngIf="!todoTasks.length">No waiting tasks.</div>
+        <mat-card *ngFor="let t of todoTasks" class="task-card" [ngClass]="timingClass(t)">
+          <div class="task-title">{{ t.title }}</div>
+          <p>{{ t.description || 'No description added.' }}</p>
+          <div class="task-meta">
+            <mat-icon>event</mat-icon>
+            {{ dateTimeLabel(t) }}
+            <span class="time-pill">{{ timingLabel(t) }}</span>
+          </div>
+          <div class="task-actions">
             <button mat-button (click)="setStatus(t, 'IN_PROGRESS')">
+              <mat-icon>play_arrow</mat-icon>
               Start
             </button>
-            <button mat-button (click)="remove(t)">Delete</button>
-          </span>
+            <button mat-icon-button color="warn" (click)="remove(t)" aria-label="Delete task">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card>
-      </div>
+      </article>
 
-      <div *ngIf="inProgressTasks.length">
-        <h3>IN PROGRESS</h3>
-        <mat-card *ngFor="let t of inProgressTasks" class="task">
-          <b>{{ t.title }}</b>
-          <div>{{ t.description }}</div>
-          <span class="action-card">
-            <button mat-button (click)="setStatus(t, 'DONE')">Done</button>
-            <button mat-button color="warn" (click)="remove(t)">Delete</button>
-          </span>
+      <article class="lane lane-progress">
+        <header>
+          <span><mat-icon>pending_actions</mat-icon> In progress</span>
+          <strong>{{ inProgressTasks.length }}</strong>
+        </header>
+        <div class="lane-empty" *ngIf="!inProgressTasks.length">Nothing in progress.</div>
+        <mat-card *ngFor="let t of inProgressTasks" class="task-card" [ngClass]="timingClass(t)">
+          <div class="task-title">{{ t.title }}</div>
+          <p>{{ t.description || 'No description added.' }}</p>
+          <div class="task-meta">
+            <mat-icon>event</mat-icon>
+            {{ dateTimeLabel(t) }}
+            <span class="time-pill">{{ timingLabel(t) }}</span>
+          </div>
+          <div class="task-actions">
+            <button mat-button (click)="setStatus(t, 'DONE')">
+              <mat-icon>check</mat-icon>
+              Done
+            </button>
+            <button mat-icon-button color="warn" (click)="remove(t)" aria-label="Delete task">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card>
-      </div>
+      </article>
 
-      <div *ngIf="doneTasks.length">
-        <h3>DONE</h3>
-        <mat-card *ngFor="let t of doneTasks" class="task">
-          <b>{{ t.title }}</b>
-          <div>{{ t.description }}</div>
+      <article class="lane lane-done">
+        <header>
+          <span><mat-icon>verified</mat-icon> Done</span>
+          <strong>{{ doneTasks.length }}</strong>
+        </header>
+        <div class="lane-empty" *ngIf="!doneTasks.length">Completed work will appear here.</div>
+        <mat-card *ngFor="let t of doneTasks" class="task-card">
+          <div class="task-title">{{ t.title }}</div>
+          <p>{{ t.description || 'No description added.' }}</p>
+          <div class="task-meta">
+            <mat-icon>event_available</mat-icon>
+            {{ dateTimeLabel(t) }}
+            <span class="time-pill">{{ timingLabel(t) }}</span>
+          </div>
+          <div class="task-actions">
+            <button mat-button (click)="setStatus(t, 'TODO')">
+              <mat-icon>restart_alt</mat-icon>
+              Reopen
+            </button>
+            <button mat-icon-button color="warn" (click)="remove(t)" aria-label="Delete task">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card>
-      </div>
-    </div>
-
-    <ng-template #noTasks>
-      <p>No tasks yet. Create your first task above.</p>
-    </ng-template>
-  </div>
-  <footer class="footer">
-    <div class="footer-content">
-      <span>
-        <mat-icon color="accent" style="vertical-align: middle"
-          >copyright</mat-icon
-        >
-        <b>Task Manager</b> {{ today | date : "yyyy" }} &mdash; Made with
-        <mat-icon color="warn" style="vertical-align: middle"
-          >favorite</mat-icon
-        >
-        by
-        <a href="https://github.com/Reddy2315" target="_blank" rel="noopener"
-          >Nagendharreddy</a
-        >
-      </span>
-      <span class="footer-links">
-        <a
-          href="https://github.com/Reddy2315/task-manager"
-          target="_blank"
-          rel="noopener"
-        >
-          <mat-icon>code</mat-icon> GitHub
-        </a>
-        <a href="mailto:your.email@example.com">
-          <mat-icon>email</mat-icon> Contact
-        </a>
-      </span>
-    </div>
-  </footer>
-</div>
+      </article>
+      </section>
+    </section>
+  </main>
+</section>

@@ -8,12 +8,10 @@ import com.reddy.taskmanager.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskService tasks;
@@ -40,7 +38,6 @@ public class TaskController {
         req.setId(null);
         req.setOwner(currentUser());
         if (req.getStatus() == null) req.setStatus(Status.TODO);
-        if (req.getDueDate() == null) req.setDueDate(LocalDate.now().plusDays(7));
         return tasks.create(req);
     }
 

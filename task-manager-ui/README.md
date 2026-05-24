@@ -1,59 +1,137 @@
-# TaskManagerUi
+# Task Manager UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+Angular frontend for the Task Manager application. This UI is built as a responsive Angular Material dashboard that connects to the Spring Boot backend at `http://localhost:8080/api`.
 
-## Development server
+## What This Frontend Provides
 
-To start a local development server, run:
+- Login and registration screens
+- JWT storage in `localStorage`
+- Auth interceptor for protected API calls
+- Split task dashboard:
+  - Left control panel with user, live clock, stats, and reminder controls
+  - Right workspace with task board, due alerts, and create-task form
+- Add task flow opened from the left-side New Task button
+- Calendar date picker with hour, minute, and AM/PM selection
+- Task lanes for Todo, In Progress, and Done
+- Task status actions:
+  - Start
+  - Done
+  - Reopen
+  - Delete
+- In-app reminder alerts for due tasks
+- Optional browser notifications
+- Global footer with project links and author credit
+- Profile screen with form validation and local feedback
 
-```bash
-ng serve
+## Tech Stack
+
+- Angular 20
+- Angular Material 20
+- RxJS 7
+- TypeScript 5.8
+
+## Folder Overview
+
+```text
+src/app/
+  core/
+    auth.service.ts
+    auth.interceptor.ts
+  shared/
+    task.service.ts
+  pages/
+    board/
+    login/
+    register/
+    profile/
+  app.routes.ts
+  app.config.ts
+  app.html
+  app.css
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Backend Dependency
 
-## Code scaffolding
+The UI expects the backend to run at:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:8080/api
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Current service endpoints:
 
-```bash
-ng generate --help
+```text
+POST   /auth/login
+POST   /auth/register
+GET    /tasks
+POST   /tasks
+PUT    /tasks/{id}
+DELETE /tasks/{id}
 ```
 
-## Building
+## Local Development
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Install dependencies:
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Run development server:
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Open:
 
-## Additional Resources
+```text
+http://localhost:4200
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Build
+
+Production build:
+
+```bash
+npm run build
+```
+
+Development build:
+
+```bash
+npx ng build --configuration development
+```
+
+The production build may fetch Google Fonts during optimization. If network access is blocked, use the development build to verify templates and TypeScript.
+
+## Reminder System
+
+The reminder UX is client-side:
+
+- `dueAt` is selected using the calendar/time controls.
+- The board schedules timers for due tasks while the app is open.
+- Due tasks appear in the in-app alert stack.
+- Browser notifications are shown only after the user enables reminders and grants browser permission.
+- Users can disable app reminders from the left control panel.
+
+Local storage keys:
+
+```text
+tm_token
+tm_reminders_enabled
+tm_notified_tasks
+```
+
+## Important Files
+
+- `src/app/pages/board/board.component/*` - main task board and reminder experience
+- `src/app/core/auth.service.ts` - login/register/token helpers
+- `src/app/core/auth.interceptor.ts` - attaches JWT token to HTTP requests
+- `src/app/shared/task.service.ts` - task API client
+- `src/app/app.html` and `src/app/app.css` - global footer
+
+## Known Notes
+
+- The profile screen currently validates and shows local feedback, but no backend profile update endpoint exists yet.
+- Browser notifications require the app to be open; backend scheduled notifications would be a future production enhancement.
