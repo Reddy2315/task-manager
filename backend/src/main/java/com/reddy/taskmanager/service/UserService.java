@@ -4,19 +4,17 @@ import com.reddy.taskmanager.dto.RegisterRequest;
 import com.reddy.taskmanager.entity.Role;
 import com.reddy.taskmanager.entity.User;
 import com.reddy.taskmanager.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository repo;
     private final PasswordEncoder encoder;
 
-    public UserService(UserRepository repo, PasswordEncoder encoder) {
-        this.repo = repo;
-        this.encoder = encoder;
-    }
 
 
     public User register(RegisterRequest req) {
